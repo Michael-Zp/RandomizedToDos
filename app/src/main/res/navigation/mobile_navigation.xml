@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_tasks">
+
+    <fragment
+        android:id="@+id/nav_tasks"
+        android:name="com.example.randomizedtodo.ui.tasks.TasksFragment"
+        android:label="@string/menu_tasks"
+        tools:layout="@layout/fragment_tasks" />
+
+    <fragment
+        android:id="@+id/nav_schedules"
+        android:name="com.example.randomizedtodo.ui.schedules.SchedulesFragment"
+        android:label="@string/menu_schedules"
+        tools:layout="@layout/fragment_schedules" />
+
+    <fragment
+        android:id="@+id/nav_groups"
+        android:name="com.example.randomizedtodo.ui.groups.GroupsFragment"
+        android:label="@string/menu_groups"
+        tools:layout="@layout/fragment_groups" />
+
+    <fragment
+        android:id="@+id/nav_add_task"
+        android:name="com.example.randomizedtodo.ui.tasks.AddTaskFragment"
+        android:label="@string/add_task"
+        tools:layout="@layout/fragment_add_task" />
+
+    <fragment
+        android:id="@+id/nav_add_schedule"
+        android:name="com.example.randomizedtodo.ui.schedules.AddScheduleFragment"
+        android:label="@string/add_schedule"
+        tools:layout="@layout/fragment_add_schedule" />
+
+    <fragment
+        android:id="@+id/nav_add_group"
+        android:name="com.example.randomizedtodo.ui.groups.AddGroupFragment"
+        android:label="@string/add_group"
+        tools:layout="@layout/fragment_add_group" />
+</navigation>
