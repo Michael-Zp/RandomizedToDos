@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.groups.GroupsFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_1_header_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_1_header_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <TextView
+        android:id="@+id/lbl_group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_of_the_group"
+        app:layout_constraintLeft_toRightOf="@+id/gdl_options_left"
+        app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_header_top"
+        app:layout_constraintBottom_toTopOf="@id/gdl_options_option_1_header_bottom" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_1_value_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_1_value_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <EditText
+        android:id="@+id/edt_group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="TaskName"
+        android:ems="10"
+        android:inputType="text"
+        android:labelFor="@id/lbl_group_name"
+        android:text="@string/name"
+        app:layout_constraintBottom_toTopOf="@id/gdl_options_option_1_value_bottom"
+        app:layout_constraintLeft_toRightOf="@+id/gdl_options_option_left"
+        app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_value_top" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_btns_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_btns_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_btns_close_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_btns_close_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <Button
+        android:id="@+id/btn_close_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@+id/gdl_btns_close_left"
+        app:layout_constraintRight_toLeftOf="@id/gdl_btns_close_right"
+        app:layout_constraintTop_toTopOf="@id/gdl_btns_top"
+        app:layout_constraintBottom_toTopOf="@id/gdl_btns_bottom" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_btns_create_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_btns_create_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <Button
+        android:id="@+id/btn_create_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@+id/gdl_btns_create_left"
+        app:layout_constraintRight_toLeftOf="@id/gdl_btns_create_right"
+        app:layout_constraintTop_toTopOf="@id/gdl_btns_top"
+        app:layout_constraintBottom_toTopOf="@id/gdl_btns_bottom"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
