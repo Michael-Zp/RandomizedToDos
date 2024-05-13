@@ -1,17 +1,17 @@
 package com.example.randomizedtodo.ui.tasks
 
-import android.R
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddTaskBinding
+import com.example.randomizedtodo.model.Group
+import com.example.randomizedtodo.model.Period
+import com.example.randomizedtodo.model.Schedule
 import com.example.randomizedtodo.model.Task
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.helpers.Utils
@@ -41,23 +41,60 @@ class AddTaskFragment : Fragment() {
         }
 
         binding.btnFinalizeTask.setOnClickListener {
-            val newEntry: String = binding.edtTaskName.text.toString()
+            val name: String = binding.edtTaskName.text.toString()
 
-            if (newEntry != "")
-            {
-                tasksViewModel.add(Task(newEntry, null, null, ArrayList()))
+            val schedule: Schedule? = if (binding.spinSchedule.selectedItemPosition != 0) {
+                schedulesViewModel.getByIdx(binding.spinSchedule.selectedItemPosition - 1)
+            } else {
+                null
             }
-            activity?.onBackPressed()
+
+            val group: Group? = if (binding.spinGroup.selectedItemPosition != 0) {
+                groupsViewModel.getByIdx(binding.spinGroup.selectedItemPosition - 1)
+            } else {
+                null
+            }
+
+            if (name.isNotEmpty())
+            {
+                tasksViewModel.add(Task(name, group, schedule))
+                activity?.onBackPressed()
+            }
+            else
+            {
+                binding.lblTaskName.setTextColor(Color.RED)
+            }
         }
 
-//        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(activity as Activity, android.R.layout.simple_spinner_item, groupsViewModel.groupNames)
-//        binding.spinGroup.adapter = arrayAdapter
-//        tasksViewModel.updater.observe(viewLifecycleOwner) { _ ->
-//            binding.spinGroup.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_spinner_item, groupsViewModel.groupNames)
-//        }
+        val lblTaskNameOriginalColor = binding.lblTaskName.currentTextColor
+        val resetTextColors: () -> Unit = {
+            binding.lblTaskName.setTextColor(lblTaskNameOriginalColor)
+        }
 
-        Utils.LinkListToViewModel<SchedulesViewModel>(activity as Activity, { schedulesViewModel.scheduleNames }, { it -> binding.spinSchedule.adapter = it }, { schedulesViewModel.updater }, viewLifecycleOwner)
-        Utils.LinkListToViewModel<GroupsViewModel>(activity as Activity, { groupsViewModel.groupNames }, { it -> binding.spinGroup.adapter = it }, { tasksViewModel.updater }, viewLifecycleOwner)
+        binding.edtTaskName.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) { resetTextColors() } }
+
+        Utils.LinkListToViewModel<SchedulesViewModel>(
+            activity as Activity,
+            {
+                val list: ArrayList<String> = ArrayList()
+                list.add("-Not selected-")
+                list.addAll(schedulesViewModel.scheduleNames)
+                list
+            },
+            { it -> binding.spinSchedule.adapter = it },
+            { schedulesViewModel.updater },
+            viewLifecycleOwner)
+        Utils.LinkListToViewModel<GroupsViewModel>(
+            activity as Activity,
+            {
+                val list: ArrayList<String> = ArrayList()
+                list.add("-Not selected-")
+                list.addAll(groupsViewModel.groupNames)
+                list
+            },
+            { it -> binding.spinGroup.adapter = it },
+            { tasksViewModel.updater },
+            viewLifecycleOwner)
 
         return root
     }

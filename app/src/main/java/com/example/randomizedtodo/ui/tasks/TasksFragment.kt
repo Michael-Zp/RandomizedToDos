@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentTasksBinding
+import com.example.randomizedtodo.model.Task
+import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
 import kotlin.random.Random
 
 class TasksFragment : Fragment() {
@@ -29,6 +31,7 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val tasksViewModel: TasksViewModel by activityViewModels()
+        val schedulesViewModel: SchedulesViewModel by activityViewModels()
 
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -43,7 +46,14 @@ class TasksFragment : Fragment() {
             Toast.makeText(context, tasksViewModel.taskNames[position], Toast.LENGTH_SHORT).show()
         }
 
+
+        val taskNameList: ArrayList<String> = ArrayList()
+        val listPositionToTaskMap: ArrayList<Task> = ArrayList()
+
         tasksViewModel.updater.observe(viewLifecycleOwner) { _ ->
+            listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
+        }
+        schedulesViewModel.updater.observe(viewLifecycleOwner) { _ ->
             listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
         }
 
@@ -56,7 +66,7 @@ class TasksFragment : Fragment() {
             {
                 val idx = rng.nextInt(0, tasksViewModel.taskNames.count())
                 Toast.makeText(activity, tasksViewModel.taskNames[idx], Toast.LENGTH_SHORT).show()
-                tasksViewModel.removeAt(idx)
+                tasksViewModel.finishedIdx(idx)
             }
         }
 

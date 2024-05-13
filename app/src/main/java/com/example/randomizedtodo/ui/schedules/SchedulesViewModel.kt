@@ -16,6 +16,10 @@ class SchedulesViewModel : ViewModel() {
         refresh()
     }
 
+    public fun getByIdx(idx: Int): Schedule {
+        return this.model.schedules[idx]
+    }
+
     public fun add(newSchedule: Schedule) {
         model.schedules.add(newSchedule)
         scheduleNames.add(newSchedule.name)

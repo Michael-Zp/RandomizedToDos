@@ -21,5 +21,10 @@ class Utils {
                 setAdapter(ArrayAdapter(activity,android.R.layout.simple_spinner_item, getBackList()))
             }
         }
+
+        @JvmStatic
+        fun CheckPeriods() {
+
+        }
     }
 }

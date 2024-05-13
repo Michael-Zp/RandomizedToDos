@@ -75,9 +75,6 @@ class MainActivity : AppCompatActivity() {
 
                 if (displayName.contains("nav_tasks"))
                 {
-                    val rng: Random = Random
-                    val name = "asdf_" + rng.nextInt(0, 10000)
-                    tasksViewModel.add(Task(name, null, null, ArrayList()))
                     navController.navigate(R.id.nav_add_task)
                 }
                 else if (displayName.contains("nav_schedules"))

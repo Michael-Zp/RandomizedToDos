@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.randomizedtodo.model.Group
 import com.example.randomizedtodo.model.Model
+import com.example.randomizedtodo.model.Schedule
 
 class GroupsViewModel : ViewModel() {
     val groupNames: ArrayList<String> = ArrayList()
@@ -14,6 +15,10 @@ class GroupsViewModel : ViewModel() {
     fun init(model: Model) {
         this.model = model
         refresh()
+    }
+
+    public fun getByIdx(idx: Int): Group {
+        return this.model.groups[idx]
     }
 
     fun add(newGroup: Group) {
