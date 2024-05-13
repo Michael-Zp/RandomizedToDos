@@ -21,4 +21,11 @@
     <string name="add_schedule">Add schedule</string>
     <string name="schedule">Schedule:</string>
     <string name="group">Group:</string>
+    <string name="repeating_every">repeating every</string>
+    <string name="with_a_maximum_of">with a maximum of</string>
+    <string name="times_every">times every</string>
+    <string name="times">times</string>
+    <string name="create">Create</string>
+    <string name="close">Close</string>
+    <string name="every">every</string>
 </resources>

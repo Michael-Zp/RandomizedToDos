@@ -3,7 +3,7 @@ package com.example.randomizedtodo.ui.schedules
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.randomizedtodo.model.Model
-import com.example.randomizedtodo.model.Task
+import com.example.randomizedtodo.model.Schedule
 
 class SchedulesViewModel : ViewModel() {
     val scheduleNames: ArrayList<String> = ArrayList<String>()
@@ -16,9 +16,9 @@ class SchedulesViewModel : ViewModel() {
         refresh()
     }
 
-    public fun add(newTask: Task) {
-        model.tasks.add(newTask)
-        scheduleNames.add(newTask.name)
+    public fun add(newSchedule: Schedule) {
+        model.schedules.add(newSchedule)
+        scheduleNames.add(newSchedule.name)
         publishEntryUpdate()
     }
 

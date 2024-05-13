@@ -21,6 +21,27 @@
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_left_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_left_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_left_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.70" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdl_options_option_1_header_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +89,8 @@
         android:text="@string/name"
         app:layout_constraintBottom_toTopOf="@id/gdl_options_option_1_value_bottom"
         app:layout_constraintLeft_toRightOf="@+id/gdl_options_option_left"
-        app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_value_top" />
+        app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_value_top"
+        tools:ignore="LabelFor" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdl_btns_top"
@@ -89,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_begin="41dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdl_btns_close_right"
@@ -102,7 +124,7 @@
         android:id="@+id/btn_close_schedule"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Close"
+        android:text="@string/close"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toRightOf="@+id/gdl_btns_close_left"
         app:layout_constraintRight_toLeftOf="@id/gdl_btns_close_right"
@@ -128,11 +150,131 @@
         android:id="@+id/btn_create_schedule"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Create"
+        android:text="@string/create"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toRightOf="@+id/gdl_btns_create_left"
         app:layout_constraintRight_toLeftOf="@id/gdl_btns_create_right"
         app:layout_constraintTop_toTopOf="@id/gdl_btns_top"
         app:layout_constraintBottom_toTopOf="@id/gdl_btns_bottom"/>
+
+    <TextView
+        android:id="@+id/txt_repeat_every"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp"
+        android:text="@string/repeating_every"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_btns_close_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gdl_options_option_left"
+        app:layout_constraintTop_toBottomOf="@+id/edt_number_times" />
+
+    <TextView
+        android:id="@+id/txt_max_per_period"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45sp"
+        android:layout_marginEnd="10sp"
+        android:text="@string/with_a_maximum_of"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_btns_create_left"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gdl_options_option_left"
+        app:layout_constraintTop_toBottomOf="@+id/txt_repeat_every" />
+
+    <TextView
+        android:id="@+id/txt_number_times"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/times"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_number_times"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_btns_create_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/edt_number_times"
+        app:layout_constraintTop_toTopOf="@+id/edt_number_times"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/txt_max_number_times"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:text="@string/times"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_max_number_times"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_btns_create_right"
+        app:layout_constraintStart_toStartOf="@+id/gdl_options_option_left_4"
+        app:layout_constraintTop_toTopOf="@+id/edt_max_number_times"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/txt_max_number_every"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25sp"
+        android:layout_marginEnd="10sp"
+        android:text="@string/every"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_options_option_left_3"
+        app:layout_constraintStart_toStartOf="@+id/gdl_options_option_left"
+        app:layout_constraintTop_toBottomOf="@+id/txt_max_per_period" />
+
+    <EditText
+        android:id="@+id/edt_number_times"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp"
+        android:layout_marginEnd="10sp"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_options_option_left_3"
+        app:layout_constraintStart_toStartOf="@+id/gdl_options_option_left"
+        app:layout_constraintTop_toBottomOf="@+id/edt_schedule_name"
+        tools:ignore="LabelFor" />
+
+    <EditText
+        android:id="@+id/edt_max_number_times"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_max_per_period"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_options_option_left_4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/gdl_btns_create_left"
+        app:layout_constraintTop_toTopOf="@+id/txt_max_per_period"
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="LabelFor" />
+
+    <Spinner
+        android:id="@+id/spin_repeating_every"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_repeat_every"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_btns_create_right"
+        app:layout_constraintStart_toEndOf="@+id/txt_repeat_every"
+        app:layout_constraintTop_toTopOf="@+id/txt_repeat_every"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Spinner
+        android:id="@+id/spin_max_times_every"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_max_number_every"
+        app:layout_constraintEnd_toStartOf="@+id/gdl_btns_create_right"
+        app:layout_constraintStart_toStartOf="@+id/gdl_options_option_left_3"
+        app:layout_constraintTop_toTopOf="@+id/txt_max_number_every"
+        app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

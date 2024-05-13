@@ -2,33 +2,33 @@ package com.example.randomizedtodo.ui.groups
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.randomizedtodo.model.Group
 import com.example.randomizedtodo.model.Model
-import com.example.randomizedtodo.model.Task
 
 class GroupsViewModel : ViewModel() {
-    val groupNames: ArrayList<String> = ArrayList<String>()
+    val groupNames: ArrayList<String> = ArrayList()
     val updater: MutableLiveData<Int> = MutableLiveData(0)
 
     private lateinit var model: Model
 
-    public fun init(model: Model) {
+    fun init(model: Model) {
         this.model = model
         refresh()
     }
 
-    public fun add(newTask: Task) {
-        model.tasks.add(newTask)
-        groupNames.add(newTask.name)
+    fun add(newGroup: Group) {
+        model.groups.add(newGroup)
+        groupNames.add(newGroup.name)
         publishEntryUpdate()
     }
 
-    public fun removeAt(idx: Int) {
+    fun removeAt(idx: Int) {
         model.tasks.removeAt(idx)
         groupNames.removeAt(idx)
         publishEntryUpdate()
     }
 
-    public fun refresh() {
+    fun refresh() {
         groupNames.clear()
         groupNames.addAll(model.schedules.map { it.name })
         publishEntryUpdate()

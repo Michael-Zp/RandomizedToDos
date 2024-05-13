@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddGroupBinding
-import com.example.randomizedtodo.model.Task
-import com.example.randomizedtodo.ui.tasks.TasksViewModel
-import java.util.Date
+import com.example.randomizedtodo.model.Group
 
 class AddGroupFragment : Fragment() {
     private var _binding: FragmentAddGroupBinding? = null
@@ -33,11 +31,11 @@ class AddGroupFragment : Fragment() {
         }
 
         binding.btnCreateGroup.setOnClickListener {
-            val newEntry: String = binding.edtGroupName.text.toString()
+            val name: String = binding.edtGroupName.text.toString()
 
-            if (newEntry != "")
+            if (name != "")
             {
-                groupsViewModel.add(Task(newEntry, null, null, ArrayList()))
+                groupsViewModel.add(Group(name))
             }
             activity?.onBackPressed()
         }
