@@ -16,12 +16,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.randomizedtodo.databinding.ActivityMainBinding
 import com.example.randomizedtodo.model.Model
-import com.example.randomizedtodo.model.Task
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
+import com.example.randomizedtodo.ui.taskList.TaskListViewModel
 import com.example.randomizedtodo.ui.tasks.TasksViewModel
 import com.google.android.material.navigation.NavigationView
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var model: Model
 
+    private val taskListViewModel: TaskListViewModel by viewModels()
     private val tasksViewModel: TasksViewModel by viewModels()
     private val groupsViewModel: GroupsViewModel by viewModels()
     private val schedulesViewModel: SchedulesViewModel by viewModels()
@@ -51,13 +51,14 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_tasks, R.id.nav_schedules, R.id.nav_groups
+                R.id.nav_task_list, R.id.nav_tasks, R.id.nav_schedules, R.id.nav_groups
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         model = Model(ArrayList(), ArrayList(), ArrayList(), filesDir)
+        taskListViewModel.init(model)
         tasksViewModel.init(model)
         groupsViewModel.init(model)
         schedulesViewModel.init(model)
@@ -66,31 +67,40 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
 
-        menu[0].setOnMenuItemClickListener {
-            if (navController.currentDestination != null)
-            {
-                val displayName = navController.currentDestination!!.displayName
+        val displayName = navController.currentDestination!!.displayName
 
-                if (displayName.contains("nav_tasks"))
+        if (displayName.contains("nav_task_list"))
+        {
+            menuInflater.inflate(R.menu.main_no_plus, menu)
+        }
+        else
+        {
+            menuInflater.inflate(R.menu.main, menu)
+
+            menu[0].setOnMenuItemClickListener {
+                if (navController.currentDestination != null)
                 {
-                    navController.navigate(R.id.nav_add_task)
+
+                    if (displayName.contains("nav_tasks"))
+                    {
+                        navController.navigate(R.id.nav_add_task)
+                    }
+                    else if (displayName.contains("nav_schedules"))
+                    {
+                        navController.navigate(R.id.nav_add_schedule)
+                    }
+                    else if (displayName.contains("nav_groups"))
+                    {
+                        navController.navigate(R.id.nav_add_group)
+                    }
                 }
-                else if (displayName.contains("nav_schedules"))
+                else
                 {
-                    navController.navigate(R.id.nav_add_schedule)
+                    Toast.makeText(this, "none", Toast.LENGTH_LONG).show()
                 }
-                else if (displayName.contains("nav_groups"))
-                {
-                    navController.navigate(R.id.nav_add_group)
-                }
+                true
             }
-            else
-            {
-                Toast.makeText(this, "none", Toast.LENGTH_LONG).show()
-            }
-            true
         }
 
         return true
@@ -111,5 +121,6 @@ class MainActivity : AppCompatActivity() {
         model.load()
 
         tasksViewModel.refresh()
+        taskListViewModel.refresh()
     }
 }

@@ -41,11 +41,9 @@ class TasksFragment : Fragment() {
         val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
         listView.adapter = arrayAdapter
 
-
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             Toast.makeText(context, tasksViewModel.taskNames[position], Toast.LENGTH_SHORT).show()
         }
-
 
         val taskNameList: ArrayList<String> = ArrayList()
         val listPositionToTaskMap: ArrayList<Task> = ArrayList()
@@ -55,19 +53,6 @@ class TasksFragment : Fragment() {
         }
         schedulesViewModel.updater.observe(viewLifecycleOwner) { _ ->
             listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
-        }
-
-        val btnGenerate: Button = binding.button
-
-        val rng: Random = Random
-
-        btnGenerate.setOnClickListener {
-            if (tasksViewModel.taskNames.isNotEmpty())
-            {
-                val idx = rng.nextInt(0, tasksViewModel.taskNames.count())
-                Toast.makeText(activity, tasksViewModel.taskNames[idx], Toast.LENGTH_SHORT).show()
-                tasksViewModel.finishedIdx(idx)
-            }
         }
 
         return root
