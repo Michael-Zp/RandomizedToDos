@@ -24,7 +24,7 @@ class AddScheduleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val tasksViewModel: TasksViewModel by activityViewModels()
+        val schedulesViewModel: SchedulesViewModel by activityViewModels()
 
         _binding = FragmentAddScheduleBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -38,7 +38,7 @@ class AddScheduleFragment : Fragment() {
 
             if (newEntry != "")
             {
-                tasksViewModel.add(Task(newEntry, null, null, ArrayList()))
+                schedulesViewModel.add(Task(newEntry, null, null, ArrayList()))
             }
             activity?.onBackPressed()
         }

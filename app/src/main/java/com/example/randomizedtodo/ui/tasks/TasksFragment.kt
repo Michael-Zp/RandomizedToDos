@@ -35,7 +35,7 @@ class TasksFragment : Fragment() {
 
         val listView: ListView = binding.listTasks
 
-        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1,tasksViewModel.taskNames)
+        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
         listView.adapter = arrayAdapter
 
 

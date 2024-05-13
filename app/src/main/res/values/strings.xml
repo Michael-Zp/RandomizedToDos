@@ -19,4 +19,6 @@
     <string name="name_of_schedule">Name of schedule</string>
     <string name="name_of_the_group">Name of the group:</string>
     <string name="add_schedule">Add schedule</string>
+    <string name="schedule">Schedule:</string>
+    <string name="group">Group:</string>
 </resources>

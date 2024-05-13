@@ -3,6 +3,7 @@ package com.example.randomizedtodo.ui.schedules
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.randomizedtodo.model.Model
+import com.example.randomizedtodo.model.Task
 
 class SchedulesViewModel : ViewModel() {
     val scheduleNames: ArrayList<String> = ArrayList<String>()
@@ -13,6 +14,18 @@ class SchedulesViewModel : ViewModel() {
     public fun init(model: Model) {
         this.model = model
         refresh()
+    }
+
+    public fun add(newTask: Task) {
+        model.tasks.add(newTask)
+        scheduleNames.add(newTask.name)
+        publishEntryUpdate()
+    }
+
+    public fun removeAt(idx: Int) {
+        model.tasks.removeAt(idx)
+        scheduleNames.removeAt(idx)
+        publishEntryUpdate()
     }
 
     public fun refresh() {

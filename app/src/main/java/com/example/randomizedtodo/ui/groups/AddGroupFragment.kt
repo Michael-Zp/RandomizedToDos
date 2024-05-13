@@ -23,7 +23,7 @@ class AddGroupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val tasksViewModel: TasksViewModel by activityViewModels()
+        val groupsViewModel: GroupsViewModel by activityViewModels()
 
         _binding = FragmentAddGroupBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -37,7 +37,7 @@ class AddGroupFragment : Fragment() {
 
             if (newEntry != "")
             {
-                tasksViewModel.add(Task(newEntry, null, null, ArrayList()))
+                groupsViewModel.add(Task(newEntry, null, null, ArrayList()))
             }
             activity?.onBackPressed()
         }
