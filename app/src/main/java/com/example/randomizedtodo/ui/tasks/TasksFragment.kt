@@ -3,21 +3,24 @@ package com.example.randomizedtodo.ui.tasks
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.randomizedtodo.R
 import com.example.randomizedtodo.databinding.FragmentTasksBinding
-import com.example.randomizedtodo.model.Task
-import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
-import kotlin.random.Random
 
-class TasksFragment : Fragment() {
+class TasksFragment : Fragment(), MenuProvider {
 
     private var _binding: FragmentTasksBinding? = null
 
@@ -31,7 +34,6 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val tasksViewModel: TasksViewModel by activityViewModels()
-        val schedulesViewModel: SchedulesViewModel by activityViewModels()
 
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -45,15 +47,11 @@ class TasksFragment : Fragment() {
             Toast.makeText(context, tasksViewModel.taskNames[position], Toast.LENGTH_SHORT).show()
         }
 
-        val taskNameList: ArrayList<String> = ArrayList()
-        val listPositionToTaskMap: ArrayList<Task> = ArrayList()
+        tasksViewModel.model.tasksObservable.observe(viewLifecycleOwner) { _ ->
+            listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
+        }
 
-        tasksViewModel.updater.observe(viewLifecycleOwner) { _ ->
-            listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
-        }
-        schedulesViewModel.updater.observe(viewLifecycleOwner) { _ ->
-            listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
-        }
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         return root
     }
@@ -61,5 +59,17 @@ class TasksFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.main, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.itemId == R.id.menu_add) {
+            findNavController().navigate(R.id.nav_add_task)
+            return true
+        }
+        return false
     }
 }

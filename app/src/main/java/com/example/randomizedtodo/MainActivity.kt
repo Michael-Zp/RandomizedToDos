@@ -1,12 +1,8 @@
 package com.example.randomizedtodo
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -39,6 +35,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        model = Model(ArrayList(), ArrayList(), ArrayList(), filesDir)
+        taskListViewModel.init(model)
+        tasksViewModel.init(model)
+        groupsViewModel.init(model)
+        schedulesViewModel.init(model)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -57,54 +59,49 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        model = Model(ArrayList(), ArrayList(), ArrayList(), filesDir)
-        taskListViewModel.init(model)
-        tasksViewModel.init(model)
-        groupsViewModel.init(model)
-        schedulesViewModel.init(model)
     }
 
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-        val displayName = navController.currentDestination!!.displayName
-
-        if (displayName.contains("nav_task_list"))
-        {
-            menuInflater.inflate(R.menu.main_no_plus, menu)
-        }
-        else
-        {
-            menuInflater.inflate(R.menu.main, menu)
-
-            menu[0].setOnMenuItemClickListener {
-                if (navController.currentDestination != null)
-                {
-
-                    if (displayName.contains("nav_tasks"))
-                    {
-                        navController.navigate(R.id.nav_add_task)
-                    }
-                    else if (displayName.contains("nav_schedules"))
-                    {
-                        navController.navigate(R.id.nav_add_schedule)
-                    }
-                    else if (displayName.contains("nav_groups"))
-                    {
-                        navController.navigate(R.id.nav_add_group)
-                    }
-                }
-                else
-                {
-                    Toast.makeText(this, "none", Toast.LENGTH_LONG).show()
-                }
-                true
-            }
-        }
-
-        return true
-    }
+//    @SuppressLint("RestrictedApi")
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//
+//        val displayName = navController.currentDestination!!.displayName
+//
+//        if (displayName.contains("nav_task_list"))
+//        {
+//            menuInflater.inflate(R.menu.main_no_plus, menu)
+//        }
+//        else
+//        {
+//            menuInflater.inflate(R.menu.main, menu)
+//
+//            menu[0].setOnMenuItemClickListener {
+//                if (navController.currentDestination != null)
+//                {
+//
+//                    if (displayName.contains("nav_tasks"))
+//                    {
+//                        navController.navigate(R.id.nav_add_task)
+//                    }
+//                    else if (displayName.contains("nav_schedules"))
+//                    {
+//                        navController.navigate(R.id.nav_add_schedule)
+//                    }
+//                    else if (displayName.contains("nav_groups"))
+//                    {
+//                        navController.navigate(R.id.nav_add_group)
+//                    }
+//                }
+//                else
+//                {
+//                    Toast.makeText(this, "none", Toast.LENGTH_LONG).show()
+//                }
+//                true
+//            }
+//        }
+//
+//        return true
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

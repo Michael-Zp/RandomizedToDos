@@ -1,6 +1,5 @@
 package com.example.randomizedtodo.ui.taskList
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.randomizedtodo.model.Model
 import com.example.randomizedtodo.model.Task
@@ -8,36 +7,29 @@ import com.example.randomizedtodo.model.Task
 class TaskListViewModel() : ViewModel() {
     val taskNames: ArrayList<String> = ArrayList()
     private val idxToTaskMap: ArrayList<Task> = ArrayList()
-    val updater: MutableLiveData<Int> = MutableLiveData(0)
 
-    private lateinit var model: Model
+    lateinit var model: Model
 
-    public fun init(model: Model) {
+    fun init(model: Model) {
         this.model = model
         refresh()
     }
 
-    public fun add(newTask: Task) {
-        model.tasks.add(newTask)
-        refresh()
-        publishEntryUpdate()
-    }
-
-    public fun finishedIdx(idx: Int) {
+    fun finishedIdx(idx: Int) {
         idxToTaskMap[idx].addCompletion()
         refresh()
-        publishEntryUpdate()
     }
 
-    public fun refresh() {
+    fun refresh() {
         taskNames.clear()
+        idxToTaskMap.clear()
 
         model.tasks.forEach {
             val timesAdded: Int
 
             if (it.schedule == null)
             {
-                timesAdded = 1
+                timesAdded = 1 - it.absoluteCompletions
             }
             else
             {
@@ -74,9 +66,7 @@ class TaskListViewModel() : ViewModel() {
                 idxToTaskMap.add(it)
             }
         }
-    }
 
-    private fun publishEntryUpdate() {
-        updater.value = updater.value!! + 1
+        model.publishTasksUpdate()
     }
 }

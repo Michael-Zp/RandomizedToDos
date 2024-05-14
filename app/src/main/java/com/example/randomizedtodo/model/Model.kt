@@ -1,9 +1,27 @@
 package com.example.randomizedtodo.model
 
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import java.io.File
 
-class Model(public val tasks: ArrayList<Task>, public val groups: ArrayList<Group>, public val schedules: ArrayList<Schedule>, private val filesDir: File) {
+class Model(val tasks: ArrayList<Task>, val groups: ArrayList<Group>, val schedules: ArrayList<Schedule>, private val filesDir: File) {
+
+    val tasksObservable: MutableLiveData<Int> = MutableLiveData(0)
+    val groupsObservable: MutableLiveData<Int> = MutableLiveData(0)
+    val schedulesObservable: MutableLiveData<Int> = MutableLiveData(0)
+
+    fun publishTasksUpdate() {
+        tasksObservable.value = tasksObservable.value!! + 1
+    }
+
+    fun publishGroupsUpdate() {
+        groupsObservable.value = groupsObservable.value!! + 1
+    }
+
+    fun publishSchedulesUpdate() {
+        schedulesObservable.value = schedulesObservable.value!! + 1
+    }
+
 
     private val yeetOldTasks: Boolean = true
 
@@ -25,7 +43,7 @@ class Model(public val tasks: ArrayList<Task>, public val groups: ArrayList<Grou
         return File(filesDir, "model.json")
     }
 
-    public fun save() {
+    fun save() {
         val file = getSaveFile()
         if (yeetSaveFileIfYeetSet(file))
         {
@@ -36,7 +54,7 @@ class Model(public val tasks: ArrayList<Task>, public val groups: ArrayList<Grou
         file.writeText(json)
     }
 
-    public fun load() {
+    fun load() {
         val file = getSaveFile()
         if (yeetSaveFileIfYeetSet(file))
         {

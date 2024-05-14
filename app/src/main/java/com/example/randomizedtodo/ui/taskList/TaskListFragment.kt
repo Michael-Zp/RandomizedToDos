@@ -3,18 +3,24 @@ package com.example.randomizedtodo.ui.taskList
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import com.example.randomizedtodo.R
 import com.example.randomizedtodo.databinding.FragmentTaskListBinding
 import kotlin.random.Random
 
-class TaskListFragment : Fragment() {
+class TaskListFragment : Fragment(), MenuProvider {
 
     private var _binding: FragmentTaskListBinding? = null
 
@@ -37,7 +43,11 @@ class TaskListFragment : Fragment() {
         taskListViewModel.refresh()
         listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, taskListViewModel.taskNames)
 
-        taskListViewModel.updater.observe(viewLifecycleOwner) { _ ->
+        taskListViewModel.model.tasksObservable.observe(viewLifecycleOwner) { _ ->
+            listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, taskListViewModel.taskNames)
+        }
+
+        taskListViewModel.model.schedulesObservable.observe(viewLifecycleOwner) { _ ->
             listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, taskListViewModel.taskNames)
         }
 
@@ -54,11 +64,21 @@ class TaskListFragment : Fragment() {
             }
         }
 
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.main_no_plus, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
     }
 }

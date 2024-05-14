@@ -1,44 +1,32 @@
 package com.example.randomizedtodo.ui.schedules
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.randomizedtodo.model.Model
 import com.example.randomizedtodo.model.Schedule
 
 class SchedulesViewModel : ViewModel() {
-    val scheduleNames: ArrayList<String> = ArrayList<String>()
-    val updater: MutableLiveData<Int> = MutableLiveData(0)
+    val scheduleNames: ArrayList<String> = ArrayList()
 
-    private lateinit var model: Model
+    lateinit var model: Model
 
-    public fun init(model: Model) {
+    fun init(model: Model) {
         this.model = model
         refresh()
     }
 
-    public fun getByIdx(idx: Int): Schedule {
+    fun getByIdx(idx: Int): Schedule {
         return this.model.schedules[idx]
     }
 
-    public fun add(newSchedule: Schedule) {
+    fun add(newSchedule: Schedule) {
         model.schedules.add(newSchedule)
         scheduleNames.add(newSchedule.name)
-        publishEntryUpdate()
+        model.publishSchedulesUpdate()
     }
 
-    public fun removeAt(idx: Int) {
-        model.tasks.removeAt(idx)
-        scheduleNames.removeAt(idx)
-        publishEntryUpdate()
-    }
-
-    public fun refresh() {
+    fun refresh() {
         scheduleNames.clear()
         scheduleNames.addAll(model.schedules.map { it.name })
-        publishEntryUpdate()
-    }
-
-    private fun publishEntryUpdate() {
-        updater.value = updater.value!! + 1
+        model.publishSchedulesUpdate()
     }
 }

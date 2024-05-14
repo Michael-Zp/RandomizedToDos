@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddTaskBinding
 import com.example.randomizedtodo.model.Group
-import com.example.randomizedtodo.model.Period
 import com.example.randomizedtodo.model.Schedule
 import com.example.randomizedtodo.model.Task
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
@@ -82,7 +81,7 @@ class AddTaskFragment : Fragment() {
                 list
             },
             { it -> binding.spinSchedule.adapter = it },
-            { schedulesViewModel.updater },
+            { schedulesViewModel.model.schedulesObservable },
             viewLifecycleOwner)
         Utils.LinkListToViewModel<GroupsViewModel>(
             activity as Activity,
@@ -93,7 +92,7 @@ class AddTaskFragment : Fragment() {
                 list
             },
             { it -> binding.spinGroup.adapter = it },
-            { tasksViewModel.updater },
+            { tasksViewModel.model.tasksObservable },
             viewLifecycleOwner)
 
         return root
