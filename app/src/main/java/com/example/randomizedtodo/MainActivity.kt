@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.randomizedtodo.databinding.ActivityMainBinding
 import com.example.randomizedtodo.model.Model
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
+import com.example.randomizedtodo.ui.schedules.ScheduleEditViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
 import com.example.randomizedtodo.ui.taskList.TaskListViewModel
 import com.example.randomizedtodo.ui.tasks.TasksViewModel
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val tasksViewModel: TasksViewModel by viewModels()
     private val groupsViewModel: GroupsViewModel by viewModels()
     private val schedulesViewModel: SchedulesViewModel by viewModels()
+    private val scheduleEditViewModel: ScheduleEditViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         tasksViewModel.init(model)
         groupsViewModel.init(model)
         schedulesViewModel.init(model)
+        scheduleEditViewModel.init(model)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

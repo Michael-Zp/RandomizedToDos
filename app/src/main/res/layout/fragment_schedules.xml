@@ -7,7 +7,7 @@
     tools:context=".ui.schedules.SchedulesFragment">
 
     <ListView
-        android:id="@+id/list_tasks"
+        android:id="@+id/list_schedules"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"

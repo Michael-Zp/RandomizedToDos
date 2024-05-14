@@ -27,6 +27,5 @@ class SchedulesViewModel : ViewModel() {
     fun refresh() {
         scheduleNames.clear()
         scheduleNames.addAll(model.schedules.map { it.name })
-        model.publishSchedulesUpdate()
     }
 }

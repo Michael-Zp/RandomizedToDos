@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.groups.GroupsFragment">
+    tools:context=".ui.groups.AddGroupFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdl_options_left"
@@ -68,7 +68,8 @@
         android:text="@string/name"
         app:layout_constraintBottom_toTopOf="@id/gdl_options_option_1_value_bottom"
         app:layout_constraintLeft_toRightOf="@+id/gdl_options_option_left"
-        app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_value_top" />
+        app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_value_top"
+        tools:ignore="LabelFor" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdl_btns_top"
@@ -102,7 +103,7 @@
         android:id="@+id/btn_close_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Close"
+        android:text="@string/close"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toRightOf="@+id/gdl_btns_close_left"
         app:layout_constraintRight_toLeftOf="@id/gdl_btns_close_right"
@@ -128,7 +129,7 @@
         android:id="@+id/btn_create_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Create"
+        android:text="@string/create"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toRightOf="@+id/gdl_btns_create_left"
         app:layout_constraintRight_toLeftOf="@id/gdl_btns_create_right"

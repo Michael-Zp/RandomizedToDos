@@ -32,11 +32,18 @@ class SchedulesFragment : Fragment(), MenuProvider {
         savedInstanceState: Bundle?
     ): View {
         val schedulesViewModel: SchedulesViewModel by activityViewModels()
+        val scheduleEditViewModel: ScheduleEditViewModel by activityViewModels()
         _binding = FragmentSchedulesBinding.inflate(inflater, container, false)
-        binding.listTasks.adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, schedulesViewModel.scheduleNames)
+        binding.listSchedules.adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, schedulesViewModel.scheduleNames)
 
         schedulesViewModel.model.schedulesObservable.observe(viewLifecycleOwner) { _ ->
-            binding.listTasks.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, schedulesViewModel.scheduleNames)
+            schedulesViewModel.refresh()
+            binding.listSchedules.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, schedulesViewModel.scheduleNames)
+        }
+
+        binding.listSchedules.setOnItemClickListener { _, _, position, _ ->
+            scheduleEditViewModel.selectedSchedule = schedulesViewModel.getByIdx(position)
+            findNavController().navigate(R.id.nav_edit_schedule)
         }
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)

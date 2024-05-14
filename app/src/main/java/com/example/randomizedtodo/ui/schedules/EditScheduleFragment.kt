@@ -4,33 +4,39 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.randomizedtodo.databinding.FragmentAddScheduleBinding
+import androidx.lifecycle.Lifecycle
+import com.example.randomizedtodo.R
+import com.example.randomizedtodo.databinding.FragmentEditScheduleBinding
 import com.example.randomizedtodo.model.Period
-import com.example.randomizedtodo.model.Schedule
 
-class AddScheduleFragment : Fragment() {
-    private var _binding: FragmentAddScheduleBinding? = null
+class EditScheduleFragment : Fragment(), MenuProvider {
+    private var _binding: FragmentEditScheduleBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val scheduleEditViewModel: ScheduleEditViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val schedulesViewModel: SchedulesViewModel by activityViewModels()
 
-        _binding = FragmentAddScheduleBinding.inflate(inflater, container, false)
+        _binding = FragmentEditScheduleBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.btnCloseSchedule.setOnClickListener {
+        binding.btnCancelScheduleEdit.setOnClickListener {
             activity?.onBackPressed()
         }
 
@@ -50,7 +56,7 @@ class AddScheduleFragment : Fragment() {
         binding.spinRepeatingEvery.adapter = arrayAdapterPeriod
         binding.spinMaxTimesEvery.adapter = arrayAdapterPeriod
 
-        binding.btnCreateSchedule.setOnClickListener {
+        binding.btnSaveScheduleEdit.setOnClickListener {
             val name: String = binding.edtScheduleName.text.toString()
             var success = true
             var repeatPeriod: Period? = null
@@ -90,7 +96,12 @@ class AddScheduleFragment : Fragment() {
 
             if (success)
             {
-                schedulesViewModel.add(Schedule(name, numberTimes!!, repeatPeriod, maxNumberPerPeriod, maxRepeatPeriod))
+                scheduleEditViewModel.selectedSchedule!!.name = name
+                scheduleEditViewModel.selectedSchedule!!.numberTimes = numberTimes!!
+                scheduleEditViewModel.selectedSchedule!!.repeatEvery = repeatPeriod
+                scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriod = maxNumberPerPeriod
+                scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriodPeriod = maxRepeatPeriod
+
                 activity?.onBackPressed()
             }
         }
@@ -113,11 +124,38 @@ class AddScheduleFragment : Fragment() {
         binding.edtMaxNumberTimes.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) { resetTextColors() } }
         binding.spinMaxTimesEvery.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) { resetTextColors() } }
 
+        binding.edtScheduleName.setText(scheduleEditViewModel.selectedSchedule!!.name)
+        binding.edtNumberTimes.setText(scheduleEditViewModel.selectedSchedule!!.numberTimes.toString())
+        if (scheduleEditViewModel.selectedSchedule!!.repeatEvery != null)
+        {
+            binding.spinRepeatingEvery.setSelection(periodList.indexOf(scheduleEditViewModel.selectedSchedule!!.repeatEvery!!.name))
+        }
+        if (scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriod != null && scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriodPeriod != null)
+        {
+            binding.edtMaxNumberTimes.setText(scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriod!!.toString())
+            binding.spinMaxTimesEvery.setSelection(periodList.indexOf(scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriodPeriod!!.name))
+        }
+
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.main_delete, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.itemId == R.id.menu_delete) {
+            scheduleEditViewModel.deleteSelectedSchedule()
+            activity?.onBackPressed()
+            return true
+        }
+        return false
     }
 }

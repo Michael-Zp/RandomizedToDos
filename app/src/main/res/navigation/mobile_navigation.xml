@@ -42,6 +42,12 @@
         tools:layout="@layout/fragment_add_schedule" />
 
     <fragment
+        android:id="@+id/nav_edit_schedule"
+        android:name="com.example.randomizedtodo.ui.schedules.EditScheduleFragment"
+        android:label="@string/edit_schedule"
+        tools:layout="@layout/fragment_edit_schedule" />
+
+    <fragment
         android:id="@+id/nav_add_group"
         android:name="com.example.randomizedtodo.ui.groups.AddGroupFragment"
         android:label="@string/add_group"

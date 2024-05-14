@@ -30,4 +30,9 @@
     <string name="every">every</string>
     <string name="task_list">Task List</string>
     <string name="todos">ToDos</string>
+    <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
+    <string name="save">Save</string>
+    <string name="edit_schedule">Edit schedule</string>
+    <string name="delete">Delete</string>
 </resources>
