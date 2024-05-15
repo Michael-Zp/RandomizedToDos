@@ -4,11 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import java.io.File
 
-class Model(val tasks: ArrayList<Task>, val groups: ArrayList<Group>, val schedules: ArrayList<Schedule>, private val filesDir: File) {
+class Model(
+    val tasks: ArrayList<Task>,
+    val groups: ArrayList<Group>,
+    val schedules: ArrayList<Schedule>,
+    private val filesDir: File) {
 
-    val tasksObservable: MutableLiveData<Int> = MutableLiveData(0)
-    val groupsObservable: MutableLiveData<Int> = MutableLiveData(0)
-    val schedulesObservable: MutableLiveData<Int> = MutableLiveData(0)
+    @Transient val tasksObservable: MutableLiveData<Int> = MutableLiveData(0)
+
+    @Transient val groupsObservable: MutableLiveData<Int> = MutableLiveData(0)
+
+    @Transient val schedulesObservable: MutableLiveData<Int> = MutableLiveData(0)
 
     fun publishTasksUpdate() {
         tasksObservable.value = tasksObservable.value!! + 1
