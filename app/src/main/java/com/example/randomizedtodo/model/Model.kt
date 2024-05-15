@@ -23,7 +23,7 @@ class Model(val tasks: ArrayList<Task>, val groups: ArrayList<Group>, val schedu
     }
 
 
-    private val yeetOldTasks: Boolean = true
+    private val yeetOldTasks: Boolean = false
 
     private fun yeetSaveFileIfYeetSet(saveFile: File): Boolean {
         if (yeetOldTasks)
