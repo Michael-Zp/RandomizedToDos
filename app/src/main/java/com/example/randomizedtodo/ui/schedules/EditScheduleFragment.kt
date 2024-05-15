@@ -101,7 +101,6 @@ class EditScheduleFragment : Fragment(), MenuProvider {
                 scheduleEditViewModel.selectedSchedule!!.repeatEvery = repeatPeriod
                 scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriod = maxNumberPerPeriod
                 scheduleEditViewModel.selectedSchedule!!.maximumRepetitionsPerPeriodPeriod = maxRepeatPeriod
-
                 activity?.onBackPressed()
             }
         }

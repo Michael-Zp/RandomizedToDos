@@ -16,6 +16,7 @@ import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.ScheduleEditViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
 import com.example.randomizedtodo.ui.taskList.TaskListViewModel
+import com.example.randomizedtodo.ui.tasks.TaskEditViewModel
 import com.example.randomizedtodo.ui.tasks.TasksViewModel
 import com.google.android.material.navigation.NavigationView
 
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private val taskListViewModel: TaskListViewModel by viewModels()
     private val tasksViewModel: TasksViewModel by viewModels()
+    private val taskEditViewModel: TaskEditViewModel by viewModels()
     private val groupsViewModel: GroupsViewModel by viewModels()
     private val schedulesViewModel: SchedulesViewModel by viewModels()
     private val scheduleEditViewModel: ScheduleEditViewModel by viewModels()
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         model = Model(ArrayList(), ArrayList(), ArrayList(), filesDir)
         taskListViewModel.init(model)
         tasksViewModel.init(model)
+        taskEditViewModel.init(model)
         groupsViewModel.init(model)
         schedulesViewModel.init(model)
         scheduleEditViewModel.init(model)

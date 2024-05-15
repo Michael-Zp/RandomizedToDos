@@ -2,10 +2,10 @@ package com.example.randomizedtodo.model
 
 import java.util.EnumMap
 
-public class Task(public val name: String, public val group: Group?, public val schedule: Schedule?) {
+class Task(var name: String, var group: Group?, var schedule: Schedule?) {
 
-    public var absoluteCompletions: Int = 0
-    public val taskCompletionsInPeriod: EnumMap<Period, Int> = EnumMap(com.example.randomizedtodo.model.Period::class.java)
+    var absoluteCompletions: Int = 0
+    val taskCompletionsInPeriod: EnumMap<Period, Int> = EnumMap(Period::class.java)
 
     init {
         Period.entries.forEach {

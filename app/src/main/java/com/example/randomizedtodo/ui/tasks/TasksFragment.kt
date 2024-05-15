@@ -34,6 +34,7 @@ class TasksFragment : Fragment(), MenuProvider {
         savedInstanceState: Bundle?
     ): View {
         val tasksViewModel: TasksViewModel by activityViewModels()
+        val editTasksViewModel: TaskEditViewModel by activityViewModels()
 
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -48,7 +49,13 @@ class TasksFragment : Fragment(), MenuProvider {
         }
 
         tasksViewModel.model.tasksObservable.observe(viewLifecycleOwner) { _ ->
+            tasksViewModel.refresh()
             listView.adapter = ArrayAdapter(activity as Activity, android.R.layout.simple_list_item_1, tasksViewModel.taskNames)
+        }
+
+        binding.listTasks.setOnItemClickListener { _, _, position, _ ->
+            editTasksViewModel.selectedTask = tasksViewModel.getByIdx(position)
+            findNavController().navigate(R.id.nav_edit_task)
         }
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)

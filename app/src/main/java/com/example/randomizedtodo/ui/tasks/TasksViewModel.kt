@@ -14,6 +14,10 @@ class TasksViewModel() : ViewModel() {
         refresh()
     }
 
+    fun getByIdx(idx: Int): Task {
+        return this.model.tasks[idx]
+    }
+
     fun add(newTask: Task) {
         model.tasks.add(newTask)
         taskNames.add(newTask.name)
@@ -23,6 +27,5 @@ class TasksViewModel() : ViewModel() {
     fun refresh() {
         taskNames.clear()
         taskNames.addAll(model.tasks.map { it.name })
-        model.publishTasksUpdate()
     }
 }
