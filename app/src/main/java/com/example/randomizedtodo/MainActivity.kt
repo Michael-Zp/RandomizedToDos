@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model = Model(ArrayList(), ArrayList(), ArrayList(), filesDir)
+        model = Model(ArrayList(), ArrayList(), ArrayList(), HashMap(), filesDir)
         taskListViewModel.init(model)
         tasksViewModel.init(model)
         taskEditViewModel.init(model)
@@ -67,48 +67,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    @SuppressLint("RestrictedApi")
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//
-//        val displayName = navController.currentDestination!!.displayName
-//
-//        if (displayName.contains("nav_task_list"))
-//        {
-//            menuInflater.inflate(R.menu.main_no_plus, menu)
-//        }
-//        else
-//        {
-//            menuInflater.inflate(R.menu.main, menu)
-//
-//            menu[0].setOnMenuItemClickListener {
-//                if (navController.currentDestination != null)
-//                {
-//
-//                    if (displayName.contains("nav_tasks"))
-//                    {
-//                        navController.navigate(R.id.nav_add_task)
-//                    }
-//                    else if (displayName.contains("nav_schedules"))
-//                    {
-//                        navController.navigate(R.id.nav_add_schedule)
-//                    }
-//                    else if (displayName.contains("nav_groups"))
-//                    {
-//                        navController.navigate(R.id.nav_add_group)
-//                    }
-//                }
-//                else
-//                {
-//                    Toast.makeText(this, "none", Toast.LENGTH_LONG).show()
-//                }
-//                true
-//            }
-//        }
-//
-//        return true
-//    }
-
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -116,12 +74,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        model.checkPeriodOverflow()
         model.save()
     }
 
     override fun onResume() {
         super.onResume()
         model.load()
+        model.checkPeriodOverflow()
 
         tasksViewModel.refresh()
         taskListViewModel.refresh()
