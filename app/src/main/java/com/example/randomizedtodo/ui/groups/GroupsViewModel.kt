@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.groups
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.version_1.Group
-import com.example.randomizedtodo.model.version_1.Model
+import com.example.randomizedtodo.model.version_2.Group
+import com.example.randomizedtodo.model.version_2.Model
 
 class GroupsViewModel : ViewModel() {
     val groupNames: ArrayList<String> = ArrayList()
@@ -26,7 +26,7 @@ class GroupsViewModel : ViewModel() {
 
     fun refresh() {
         groupNames.clear()
-        groupNames.addAll(model.schedules.map { it.name })
+        groupNames.addAll(model.groups.map { it.name })
         model.publishGroupsUpdate()
     }
 }

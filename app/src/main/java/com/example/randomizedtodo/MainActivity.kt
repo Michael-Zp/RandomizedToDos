@@ -11,7 +11,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.randomizedtodo.databinding.ActivityMainBinding
-import com.example.randomizedtodo.model.version_1.Model
+import com.example.randomizedtodo.model.ModelLoader
+import com.example.randomizedtodo.model.version_2.Model
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.ScheduleEditViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
@@ -39,7 +40,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model = Model(ArrayList(), ArrayList(), ArrayList(), HashMap(), filesDir)
+        val modelLoader: ModelLoader = ModelLoader(filesDir)
+
+        model = modelLoader.load()
         taskListViewModel.init(model)
         tasksViewModel.init(model)
         taskEditViewModel.init(model)

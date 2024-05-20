@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddGroupBinding
-import com.example.randomizedtodo.model.version_1.Group
+import com.example.randomizedtodo.model.version_2.Group
 
 class AddGroupFragment : Fragment() {
     private var _binding: FragmentAddGroupBinding? = null

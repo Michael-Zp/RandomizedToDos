@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.tasks
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.version_1.Model
-import com.example.randomizedtodo.model.version_1.Task
+import com.example.randomizedtodo.model.version_2.Model
+import com.example.randomizedtodo.model.version_2.Task
 
 class TaskEditViewModel() : ViewModel() {
     var selectedTask: Task? = null

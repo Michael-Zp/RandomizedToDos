@@ -1,5 +1,7 @@
 package com.example.randomizedtodo.model.version_1
 
+@Suppress("DEPRECATION")
+@Deprecated("Model version is deprecated, use new version instead.")
 class Task(var name: String, var group: Group?, var schedule: Schedule?) {
 
     var absoluteCompletions: Int = 0

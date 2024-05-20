@@ -1,14 +1,17 @@
 package com.example.randomizedtodo.model
 
-abstract class BaseModel<TNext>(val filePath: String) {
+import java.lang.reflect.Type
+import kotlin.reflect.typeOf
+
+abstract class BaseModel<TNext>(@Transient val filePath: String, @Transient val modelLoader: ModelLoader) {
     companion object {
 
         @JvmStatic
-        private val knownPaths: HashSet<String> = HashSet()
+        private val knownPaths: HashMap<String, Type> = HashMap()
     }
 
     init {
-        if (knownPaths.contains(filePath)) {
+        if (knownPaths.containsKey(filePath) && knownPaths[filePath] != this::class.java) {
             throw Exception(buildString {
                 append("Two models should never have the same save path, as they will generate collisions. Colliding path: '")
                 append(filePath)
@@ -16,8 +19,14 @@ abstract class BaseModel<TNext>(val filePath: String) {
             })
         }
 
-        knownPaths.add(filePath)
+        knownPaths[filePath] = this::class.java
     }
 
-    abstract fun convertToNextModel(): TNext
+    abstract fun convertToNextModel(newModelLoader: ModelLoader): TNext
+
+    fun save() {
+        modelLoader.save(this)
+    }
+
+    abstract fun load()
 }

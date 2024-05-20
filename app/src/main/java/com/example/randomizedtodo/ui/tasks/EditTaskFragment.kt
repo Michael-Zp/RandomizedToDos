@@ -16,8 +16,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.example.randomizedtodo.R
 import com.example.randomizedtodo.databinding.FragmentEditTaskBinding
-import com.example.randomizedtodo.model.version_1.Group
-import com.example.randomizedtodo.model.version_1.Schedule
+import com.example.randomizedtodo.model.version_2.Group
+import com.example.randomizedtodo.model.version_2.Schedule
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
 
@@ -62,8 +62,8 @@ class EditTaskFragment : Fragment(), MenuProvider {
             if (name.isNotEmpty())
             {
                 editTasksViewModel.selectedTask!!.name = name
-                editTasksViewModel.selectedTask!!.schedule = schedule
-                editTasksViewModel.selectedTask!!.group = group
+                editTasksViewModel.selectedTask!!.scheduleId = schedule?.ID
+                editTasksViewModel.selectedTask!!.groupId = group?.ID
                 activity?.onBackPressed()
             }
             else
@@ -90,13 +90,15 @@ class EditTaskFragment : Fragment(), MenuProvider {
         binding.spinGroup.adapter = ArrayAdapter(activity as Context, android.R.layout.simple_list_item_1, groupsList)
 
         binding.edtTaskName.setText(editTasksViewModel.selectedTask!!.name)
-        if (editTasksViewModel.selectedTask?.schedule != null)
+        if (editTasksViewModel.selectedTask?.scheduleId != null)
         {
-            binding.spinSchedule.setSelection(1 + editTasksViewModel.model.schedules.indexOf(editTasksViewModel.selectedTask?.schedule!!))
+            val idxInAllSchedules = editTasksViewModel.model.schedules.indexOfFirst { editTasksViewModel.selectedTask?.scheduleId == it.ID }
+            binding.spinSchedule.setSelection(1 + idxInAllSchedules)
         }
-        if (editTasksViewModel.selectedTask?.group != null)
+        if (editTasksViewModel.selectedTask?.groupId != null)
         {
-            binding.spinGroup.setSelection(1 + editTasksViewModel.model.groups.indexOf(editTasksViewModel.selectedTask?.group!!))
+            val idxInAllGroups = editTasksViewModel.model.groups.indexOfFirst { editTasksViewModel.selectedTask?.groupId == it.ID }
+            binding.spinGroup.setSelection(1 + idxInAllGroups)
         }
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)

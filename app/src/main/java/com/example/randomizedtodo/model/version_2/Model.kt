@@ -2,42 +2,62 @@ package com.example.randomizedtodo.model.version_2
 
 import androidx.lifecycle.MutableLiveData
 import com.example.randomizedtodo.model.BaseModel
-import com.google.gson.Gson
-import java.io.File
+import com.example.randomizedtodo.model.ModelLoader
 import java.util.Calendar
 
 class Model(
     val tasks: ArrayList<Task>,
     val groups: ArrayList<Group>,
     val schedules: ArrayList<Schedule>,
-    private val lastUpdateByPeriod: HashMap<Period, Int>) : BaseModel("version_2/model.json") {
-    
+    modelLoader: ModelLoader) : BaseModel<Model>(saveFilePath, modelLoader) {
+
+    companion object{
+        @JvmStatic
+        val saveFilePath: String = "version_2/model.json"
+    }
+
+    var lastUpdateByPeriod: HashMap<Period, Int> = HashMap()
+
     init {
         Period.entries.forEach { lastUpdateByPeriod[it] = -1 }
     }
 
-    @Transient val tasksObservable: MutableLiveData<Int> = MutableLiveData(0)
+    constructor(tasks: ArrayList<Task>,
+                groups: ArrayList<Group>,
+                schedules: ArrayList<Schedule>,
+                lastUpdateByPeriod: HashMap<Period, Int>?,
+                modelLoader: ModelLoader) : this(tasks, groups, schedules, modelLoader) {
+        if (lastUpdateByPeriod == null) {
+            this.lastUpdateByPeriod = HashMap()
+            Period.entries.forEach { this.lastUpdateByPeriod[it] = -1 }
+        } else {
+            lastUpdateByPeriod.forEach { this.lastUpdateByPeriod[it.key] = it.value }
+        }
+        checkPeriodOverflow()
+    }
 
-    @Transient val groupsObservable: MutableLiveData<Int> = MutableLiveData(0)
+    @Transient var tasksObservable: MutableLiveData<Int> = MutableLiveData(0)
 
-    @Transient val schedulesObservable: MutableLiveData<Int> = MutableLiveData(0)
+    @Transient var groupsObservable: MutableLiveData<Int> = MutableLiveData(0)
+
+    @Transient var schedulesObservable: MutableLiveData<Int> = MutableLiveData(0)
 
     fun publishTasksUpdate() {
         tasksObservable.value = tasksObservable.value!! + 1
         checkPeriodOverflow()
-        save()
+        modelLoader.save(this)
     }
 
     fun publishGroupsUpdate() {
         groupsObservable.value = groupsObservable.value!! + 1
         checkPeriodOverflow()
-        save()
+        modelLoader.save(this)
     }
 
     fun publishSchedulesUpdate() {
         schedulesObservable.value = schedulesObservable.value!! + 1
         checkPeriodOverflow()
-        save()
+        modelLoader.save(this)
     }
 
     fun checkPeriodOverflow() {
@@ -79,68 +99,15 @@ class Model(
         }
     }
 
-
-    private val yeetOldTasks: Boolean = false
-
-    private fun yeetSaveFileIfYeetSet(saveFile: File): Boolean {
-        if (yeetOldTasks)
-        {
-            if (saveFile.exists())
-            {
-                saveFile.delete()
-            }
-
-            return true
-        }
-
-        return false
+    override fun convertToNextModel(newModelLoader: ModelLoader): Model {
+        throw NotImplementedError("Conversion to next model not implemented yet.")
     }
 
-    private fun getSaveFile(): File {
-        return File(filesDir, "model.json")
-    }
+    override fun load() {
+        val loadedModel: Model = modelLoader.load()
 
-    fun save() {
-        val file = getSaveFile()
-        if (yeetSaveFileIfYeetSet(file))
-        {
-            return
-        }
-
-        val json = Gson().toJson(this)
-        file.writeText(json)
-    }
-
-    fun load() {
-        val file = getSaveFile()
-        if (yeetSaveFileIfYeetSet(file))
-        {
-            return
-        }
-
-        if (file.exists())
-        {
-            val entries = Gson().fromJson(file.readText(), Model::class.java)
-
-            tasks.clear()
-            groups.clear()
-            schedules.clear()
-            lastUpdateByPeriod.clear()
-
-            tasks.addAll(entries.tasks)
-            groups.addAll(entries.groups)
-            schedules.addAll(entries.schedules)
-
-            // Is only != null if it was present in the last save file. Otherwise it is actually null
-            if (entries.lastUpdateByPeriod == null || entries.lastUpdateByPeriod.isEmpty()) {
-                Period.entries.forEach { lastUpdateByPeriod[it] = -1 }
-            } else {
-                entries.lastUpdateByPeriod.forEach { lastUpdateByPeriod[it.key] = it.value }
-            }
-
-            publishTasksUpdate()
-            publishSchedulesUpdate()
-            publishGroupsUpdate()
-        }
+        publishTasksUpdate()
+        publishSchedulesUpdate()
+        publishGroupsUpdate()
     }
 }

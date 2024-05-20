@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.taskList
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.version_1.Model
-import com.example.randomizedtodo.model.version_1.Task
+import com.example.randomizedtodo.model.version_2.Model
+import com.example.randomizedtodo.model.version_2.Task
 
 class TaskListViewModel() : ViewModel() {
     val taskNames: ArrayList<String> = ArrayList()
@@ -24,47 +24,55 @@ class TaskListViewModel() : ViewModel() {
         taskNames.clear()
         idxToTaskMap.clear()
 
-        model.tasks.forEach {
+        model.tasks.forEach { task ->
             val timesAdded: Int
 
-            if (it.schedule == null)
+            if (task.scheduleId == null)
             {
-                timesAdded = 1 - it.absoluteCompletions
+                timesAdded = 1 - task.absoluteCompletions
             }
             else
             {
-                val hasRepeatEveryPart = it.schedule!!.repeatEvery != null
-                val hasMaxRepeatInPeriodPart = it.schedule!!.maximumRepetitionsPerPeriod != null && it.schedule!!.maximumRepetitionsPerPeriodPeriod != null
+                val schedule = model.schedules.find { task.scheduleId == it.ID }
 
-                if (!hasRepeatEveryPart && !hasMaxRepeatInPeriodPart)
+                if (schedule != null)
                 {
-                    timesAdded = it.schedule!!.numberTimes - it.absoluteCompletions
+                    val hasRepeatEveryPart = schedule.repeatEvery != null
+                    val hasMaxRepeatInPeriodPart = schedule.maximumRepetitionsPerPeriod != null && schedule.maximumRepetitionsPerPeriodPeriod != null
+
+                    if (!hasRepeatEveryPart && !hasMaxRepeatInPeriodPart)
+                    {
+                        timesAdded = schedule.numberTimes - task.absoluteCompletions
+                    }
+                    else if(hasRepeatEveryPart && !hasMaxRepeatInPeriodPart)
+                    {
+                        timesAdded = schedule.numberTimes - (task.taskCompletionsInPeriod.getOrPut(schedule.repeatEvery!!) { -> 0 })
+                    }
+                    else if(!hasRepeatEveryPart) // && hasMaxRepeatInPeriodPart
+                    {
+                        val completionsThisPeriod = (task.taskCompletionsInPeriod.getOrPut(schedule.maximumRepetitionsPerPeriodPeriod!!) { -> 0 })
+                        val maxLeftCompletionsThisPeriod = schedule.maximumRepetitionsPerPeriod!! - completionsThisPeriod
+                        val absoluteCompletionsLeft = schedule.numberTimes - task.absoluteCompletions
+                        timesAdded = minOf(maxLeftCompletionsThisPeriod, absoluteCompletionsLeft)
+                    }
+                    else // hasRepeatEveryPart && hasMaxRepeatInPeriodPart
+                    {
+                        val completionsThisPeriod = (task.taskCompletionsInPeriod.getOrPut(schedule.maximumRepetitionsPerPeriodPeriod!!) { -> 0 })
+                        val maxLeftCompletionsThisPeriod = schedule.maximumRepetitionsPerPeriod!! - completionsThisPeriod
+                        val completionsLeft = schedule.numberTimes - (task.taskCompletionsInPeriod.getOrPut(schedule.repeatEvery!!) { -> 0 })
+                        timesAdded = minOf(maxLeftCompletionsThisPeriod, completionsLeft)
+                    }
                 }
-                else if(hasRepeatEveryPart && !hasMaxRepeatInPeriodPart)
+                else
                 {
-                    timesAdded = it.schedule!!.numberTimes - (it.taskCompletionsInPeriod.getOrPut(it.schedule!!.repeatEvery!!) { -> 0 })
-                }
-                else if(!hasRepeatEveryPart) // && hasMaxRepeatInPeriodPart
-                {
-                    val completionsThisPeriod = (it.taskCompletionsInPeriod.getOrPut(it.schedule!!.maximumRepetitionsPerPeriodPeriod!!) { -> 0 })
-                    val maxLeftCompletionsThisPeriod = it.schedule!!.maximumRepetitionsPerPeriod!! - completionsThisPeriod
-                    val absoluteCompletionsLeft = it.schedule!!.numberTimes - it.absoluteCompletions
-                    timesAdded = minOf(maxLeftCompletionsThisPeriod, absoluteCompletionsLeft)
-                }
-                else // hasRepeatEveryPart && hasMaxRepeatInPeriodPart
-                {
-                    val completionsThisPeriod = (it.taskCompletionsInPeriod.getOrPut(it.schedule!!.maximumRepetitionsPerPeriodPeriod!!) { -> 0 })
-                    val maxLeftCompletionsThisPeriod = it.schedule!!.maximumRepetitionsPerPeriod!! - completionsThisPeriod
-                    val completionsLeft = it.schedule!!.numberTimes - (it.taskCompletionsInPeriod.getOrPut(
-                        it.schedule!!.repeatEvery!!) { -> 0 })
-                    timesAdded = minOf(maxLeftCompletionsThisPeriod, completionsLeft)
+                    timesAdded = 0
                 }
             }
 
             for (i in 1..timesAdded)
             {
-                taskNames.add(it.name)
-                idxToTaskMap.add(it)
+                taskNames.add(task.name)
+                idxToTaskMap.add(task)
             }
         }
 
