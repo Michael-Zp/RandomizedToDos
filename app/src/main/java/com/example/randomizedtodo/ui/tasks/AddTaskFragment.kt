@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddTaskBinding
-import com.example.randomizedtodo.model.Group
-import com.example.randomizedtodo.model.Schedule
-import com.example.randomizedtodo.model.Task
+import com.example.randomizedtodo.model.version_1.Group
+import com.example.randomizedtodo.model.version_1.Schedule
+import com.example.randomizedtodo.model.version_1.Task
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.helpers.Utils
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel

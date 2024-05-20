@@ -16,8 +16,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.example.randomizedtodo.R
 import com.example.randomizedtodo.databinding.FragmentEditTaskBinding
-import com.example.randomizedtodo.model.Group
-import com.example.randomizedtodo.model.Schedule
+import com.example.randomizedtodo.model.version_1.Group
+import com.example.randomizedtodo.model.version_1.Schedule
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
 

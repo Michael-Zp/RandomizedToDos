@@ -1,6 +1,9 @@
-package com.example.randomizedtodo.model
+package com.example.randomizedtodo.model.version_2
 
-class Task(var name: String, var group: Group?, var schedule: Schedule?) {
+import com.example.randomizedtodo.model.ID
+import com.example.randomizedtodo.model.IdAble
+
+class Task(var name: String, var groupId: ID?, var scheduleID: ID?) : IdAble() {
 
     var absoluteCompletions: Int = 0
     val taskCompletionsInPeriod: HashMap<Period, Int> = HashMap()

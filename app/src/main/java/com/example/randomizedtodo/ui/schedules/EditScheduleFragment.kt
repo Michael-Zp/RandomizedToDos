@@ -16,7 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.example.randomizedtodo.R
 import com.example.randomizedtodo.databinding.FragmentEditScheduleBinding
-import com.example.randomizedtodo.model.Period
+import com.example.randomizedtodo.model.version_1.Period
 
 class EditScheduleFragment : Fragment(), MenuProvider {
     private var _binding: FragmentEditScheduleBinding? = null

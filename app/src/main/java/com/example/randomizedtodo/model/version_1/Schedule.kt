@@ -1,4 +1,4 @@
-package com.example.randomizedtodo.model
+package com.example.randomizedtodo.model.version_1
 
 class Schedule(var name: String,
                var numberTimes: Int,

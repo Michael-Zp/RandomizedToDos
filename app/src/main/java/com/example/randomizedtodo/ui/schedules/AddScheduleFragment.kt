@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddScheduleBinding
-import com.example.randomizedtodo.model.Period
-import com.example.randomizedtodo.model.Schedule
+import com.example.randomizedtodo.model.version_1.Period
+import com.example.randomizedtodo.model.version_1.Schedule
 
 class AddScheduleFragment : Fragment() {
     private var _binding: FragmentAddScheduleBinding? = null

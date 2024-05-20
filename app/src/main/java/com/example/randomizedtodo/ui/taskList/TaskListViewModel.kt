@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.taskList
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.Model
-import com.example.randomizedtodo.model.Task
+import com.example.randomizedtodo.model.version_1.Model
+import com.example.randomizedtodo.model.version_1.Task
 
 class TaskListViewModel() : ViewModel() {
     val taskNames: ArrayList<String> = ArrayList()

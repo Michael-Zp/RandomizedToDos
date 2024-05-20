@@ -11,7 +11,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.randomizedtodo.databinding.ActivityMainBinding
-import com.example.randomizedtodo.model.Model
+import com.example.randomizedtodo.model.version_1.Model
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.ScheduleEditViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
