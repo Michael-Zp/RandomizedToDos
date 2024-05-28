@@ -1,9 +1,7 @@
-package com.example.randomizedtodo.model.version_2
+package com.example.randomizedtodo.model.version_3
 
 import com.example.randomizedtodo.model.IdAble
 
-@Suppress("DEPRECATION")
-@Deprecated("Model version is deprecated, use new version instead.")
 class Schedule(var name: String,
                var numberTimes: Int,
                var repeatEvery: Period?,

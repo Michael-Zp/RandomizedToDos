@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.groups
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.version_2.Group
-import com.example.randomizedtodo.model.version_2.Model
+import com.example.randomizedtodo.model.version_3.Group
+import com.example.randomizedtodo.model.version_3.Model
 
 class GroupsViewModel : ViewModel() {
     val groupNames: ArrayList<String> = ArrayList()

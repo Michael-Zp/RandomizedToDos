@@ -36,4 +36,5 @@
     <string name="edit_schedule">Edit schedule</string>
     <string name="delete">Delete</string>
     <string name="edit_task">Edit task</string>
+    <string name="enabled">Enabled</string>
 </resources>

@@ -31,32 +31,42 @@ class ModelLoader(private val filesDir: File) {
         file.writeText(json)
     }
 
-    fun load(): com.example.randomizedtodo.model.version_2.Model {
-        val modelInstance = com.example.randomizedtodo.model.version_2.Model(ArrayList(), ArrayList(), ArrayList(), this)
+    fun load(): com.example.randomizedtodo.model.version_3.Model {
+        val modelInstance = com.example.randomizedtodo.model.version_3.Model(ArrayList(), ArrayList(), ArrayList(), this)
 
         if (loadEmptyModel)
         {
             return modelInstance
         }
 
-        var loadedModel: com.example.randomizedtodo.model.version_2.Model? = null
+        var loadedModel: com.example.randomizedtodo.model.version_3.Model? = null
 
         val saveFileVersion1 = getSaveFile(com.example.randomizedtodo.model.version_1.Model.saveFilePath)
         val saveFileVersion2 = getSaveFile(com.example.randomizedtodo.model.version_2.Model.saveFilePath)
+        val saveFileVersion3 = getSaveFile(com.example.randomizedtodo.model.version_3.Model.saveFilePath)
 
-        if (saveFileVersion2.exists())
+        if (saveFileVersion3.exists())
         {
-            loadedModel = Gson().fromJson(saveFileVersion2.readText(), com.example.randomizedtodo.model.version_2.Model::class.java)
+            loadedModel = Gson().fromJson(saveFileVersion3.readText(), com.example.randomizedtodo.model.version_3.Model::class.java)
+        }
+        else if (saveFileVersion2.exists())
+        {
+            val content = saveFileVersion2.readText()
+            val model2 = Gson().fromJson(content, com.example.randomizedtodo.model.version_2.Model::class.java)
+            loadedModel = model2
+                .convertToNextModel(this)
         }
         else if (saveFileVersion1.exists())
         {
             val content = saveFileVersion1.readText()
             val model1 = Gson().fromJson(content, com.example.randomizedtodo.model.version_1.Model::class.java)
-            loadedModel = model1.convertToNextModel(this)
+            loadedModel = model1
+                .convertToNextModel(this)
+                .convertToNextModel(this)
         }
         else
         {
-            loadedModel = com.example.randomizedtodo.model.version_2.Model(ArrayList(), ArrayList(), ArrayList(), this)
+            loadedModel = com.example.randomizedtodo.model.version_3.Model(ArrayList(), ArrayList(), ArrayList(), this)
         }
 
         modelInstance.tasks.clear()
@@ -70,7 +80,7 @@ class ModelLoader(private val filesDir: File) {
 
         // Is only != null if it was present in the last save file. Otherwise it is actually null
         if (loadedModel!!.lastUpdateByPeriod != null || loadedModel.lastUpdateByPeriod.isEmpty()) {
-            com.example.randomizedtodo.model.version_2.Period.entries.forEach {
+            com.example.randomizedtodo.model.version_3.Period.entries.forEach {
                 if (loadedModel.lastUpdateByPeriod.containsKey(it)) {
                     modelInstance.lastUpdateByPeriod[it] = loadedModel.lastUpdateByPeriod[it]!!
                 } else {

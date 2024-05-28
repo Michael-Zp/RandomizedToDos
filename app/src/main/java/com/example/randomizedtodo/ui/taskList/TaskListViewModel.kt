@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.taskList
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.version_2.Model
-import com.example.randomizedtodo.model.version_2.Task
+import com.example.randomizedtodo.model.version_3.Model
+import com.example.randomizedtodo.model.version_3.Task
 
 class TaskListViewModel() : ViewModel() {
     val taskNames: ArrayList<String> = ArrayList()
@@ -27,7 +27,11 @@ class TaskListViewModel() : ViewModel() {
         model.tasks.forEach { task ->
             val timesAdded: Int
 
-            if (task.scheduleId == null)
+            if (!task.enabled)
+            {
+                timesAdded = 0
+            }
+            else if (task.scheduleId == null)
             {
                 timesAdded = 1 - task.absoluteCompletions
             }

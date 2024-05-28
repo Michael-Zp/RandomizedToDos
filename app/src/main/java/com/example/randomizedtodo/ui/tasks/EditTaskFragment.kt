@@ -16,8 +16,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.example.randomizedtodo.R
 import com.example.randomizedtodo.databinding.FragmentEditTaskBinding
-import com.example.randomizedtodo.model.version_2.Group
-import com.example.randomizedtodo.model.version_2.Schedule
+import com.example.randomizedtodo.model.version_3.Group
+import com.example.randomizedtodo.model.version_3.Schedule
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
 
@@ -61,6 +61,7 @@ class EditTaskFragment : Fragment(), MenuProvider {
 
             if (name.isNotEmpty())
             {
+                editTasksViewModel.selectedTask!!.enabled = binding.cbEnabled.isChecked
                 editTasksViewModel.selectedTask!!.name = name
                 editTasksViewModel.selectedTask!!.scheduleId = schedule?.ID
                 editTasksViewModel.selectedTask!!.groupId = group?.ID
@@ -100,6 +101,8 @@ class EditTaskFragment : Fragment(), MenuProvider {
             val idxInAllGroups = editTasksViewModel.model.groups.indexOfFirst { editTasksViewModel.selectedTask?.groupId == it.ID }
             binding.spinGroup.setSelection(1 + idxInAllGroups)
         }
+
+        binding.cbEnabled.isChecked = editTasksViewModel.selectedTask!!.enabled
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 

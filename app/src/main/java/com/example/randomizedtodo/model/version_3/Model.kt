@@ -1,21 +1,19 @@
-package com.example.randomizedtodo.model.version_2
+package com.example.randomizedtodo.model.version_3
 
 import androidx.lifecycle.MutableLiveData
 import com.example.randomizedtodo.model.BaseModel
 import com.example.randomizedtodo.model.ModelLoader
 import java.util.Calendar
 
-@Suppress("DEPRECATION")
-@Deprecated("Model version is deprecated, use new version instead.")
 class Model(
     val tasks: ArrayList<Task>,
     val groups: ArrayList<Group>,
     val schedules: ArrayList<Schedule>,
-    modelLoader: ModelLoader) : BaseModel<com.example.randomizedtodo.model.version_3.Model>(saveFilePath, modelLoader) {
+    modelLoader: ModelLoader) : BaseModel<Model>(saveFilePath, modelLoader) {
 
     companion object{
         @JvmStatic
-        val saveFilePath: String = "version_2/model.json"
+        val saveFilePath: String = "version_3/model.json"
     }
 
     var lastUpdateByPeriod: HashMap<Period, Int> = HashMap()
@@ -101,64 +99,13 @@ class Model(
         }
     }
 
-    override fun convertToNextModel(newModelLoader: ModelLoader): com.example.randomizedtodo.model.version_3.Model {
-        val newGroupsList: ArrayList<com.example.randomizedtodo.model.version_3.Group> = ArrayList()
-        groups.forEach {
-            newGroupsList.add(com.example.randomizedtodo.model.version_3.Group(it.name))
-        }
-
-        val newSchedulesList: ArrayList<com.example.randomizedtodo.model.version_3.Schedule> = ArrayList()
-        schedules.forEach {
-            newSchedulesList.add(
-                com.example.randomizedtodo.model.version_3.Schedule(
-                    it.name,
-                    it.numberTimes,
-                    ConvertPeriod(it.repeatEvery),
-                    it.maximumRepetitionsPerPeriod,
-                    ConvertPeriod(it.maximumRepetitionsPerPeriodPeriod)
-                )
-            )
-        }
-
-        val newTaskList: ArrayList<com.example.randomizedtodo.model.version_3.Task> = ArrayList()
-        tasks.forEach { task ->
-            newTaskList.add(com.example.randomizedtodo.model.version_3.Task(true, task.name, task.groupId, task.scheduleId))
-        }
-
-        val newLastUpdateMap: HashMap<com.example.randomizedtodo.model.version_3.Period, Int> = HashMap()
-        // No idea how this can be null, but GSON is doing stuff when saving it wrong
-        if (lastUpdateByPeriod != null) {
-            lastUpdateByPeriod.forEach { (period, i) ->
-                newLastUpdateMap[ConvertPeriod(period)!!] = i
-            }
-        }
-        else {
-            com.example.randomizedtodo.model.version_3.Period.entries.forEach {
-                newLastUpdateMap[it] = -1
-            }
-        }
-
-        return com.example.randomizedtodo.model.version_3.Model(newTaskList, newGroupsList, newSchedulesList, newLastUpdateMap, newModelLoader)
+    override fun convertToNextModel(newModelLoader: ModelLoader): Model {
+        throw NotImplementedError("Conversion to next model not implemented yet.")
     }
 
-    @Deprecated("Removed implementation, because model loader can't load this model anymore.",
-        ReplaceWith("version_3.Model")
-    )
     override fun load() {
-        throw NotImplementedError("Removed implementation, because model loader can't load this model anymore.")
-    }
-
-    private fun ConvertPeriod(old: com.example.randomizedtodo.model.version_2.Period?) : com.example.randomizedtodo.model.version_3.Period? {
-        var newPeriod: com.example.randomizedtodo.model.version_3.Period? = null
-
-        if (old != null) {
-            com.example.randomizedtodo.model.version_3.Period.entries.forEach {
-                if (it.name == old.name) {
-                    newPeriod = it
-                }
-            }
-        }
-
-        return newPeriod
+        publishTasksUpdate()
+        publishSchedulesUpdate()
+        publishGroupsUpdate()
     }
 }

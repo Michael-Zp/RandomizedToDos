@@ -1,5 +1,6 @@
 package com.example.randomizedtodo.model.version_1
 
+
 import androidx.lifecycle.MutableLiveData
 import com.example.randomizedtodo.model.BaseModel
 import com.example.randomizedtodo.model.ID
@@ -13,7 +14,7 @@ class Model(
     val tasks: ArrayList<Task>,
     val groups: ArrayList<Group>,
     val schedules: ArrayList<Schedule>,
-    modelLoader: ModelLoader) : BaseModel<com.example.randomizedtodo.model.version_2.Model>(saveFilePath, modelLoader) {
+    modelLoader: ModelLoader) : BaseModel<Model>(saveFilePath, modelLoader) {
 
     companion object{
         @JvmStatic
@@ -157,7 +158,9 @@ class Model(
         return Model(newTaskList, newGroupsList, newSchedulesList, newLastUpdateMap, newModelLoader)
     }
 
-    @Deprecated("Removed implementation, because model loader can't load this model anymore.")
+    @Deprecated("Removed implementation, because model loader can't load this model anymore.",
+        ReplaceWith("version_2.Model")
+    )
     override fun load() {
         throw NotImplementedError("Removed implementation, because model loader can't load this model anymore.")
     }

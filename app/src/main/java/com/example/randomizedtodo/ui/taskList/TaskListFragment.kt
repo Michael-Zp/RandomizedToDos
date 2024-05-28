@@ -28,6 +28,8 @@ class TaskListFragment : Fragment(), MenuProvider {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val taskListViewModel: TaskListViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,8 +37,6 @@ class TaskListFragment : Fragment(), MenuProvider {
     ): View {
         _binding = FragmentTaskListBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val taskListViewModel: TaskListViewModel by activityViewModels()
 
         val listView: ListView = binding.listTasks
 
@@ -59,14 +59,22 @@ class TaskListFragment : Fragment(), MenuProvider {
             if (taskListViewModel.taskNames.isNotEmpty())
             {
                 val idx = rng.nextInt(0, taskListViewModel.taskNames.count())
-                Toast.makeText(activity, taskListViewModel.taskNames[idx], Toast.LENGTH_SHORT).show()
-                taskListViewModel.finishedIdx(idx)
+                selectNextTask(idx)
             }
+        }
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            selectNextTask(position)
         }
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         return root
+    }
+
+    private fun selectNextTask(idx: Int) {
+        Toast.makeText(activity, taskListViewModel.taskNames[idx], Toast.LENGTH_SHORT).show()
+        taskListViewModel.finishedIdx(idx)
     }
 
     override fun onDestroyView() {

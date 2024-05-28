@@ -70,7 +70,8 @@
         app:layout_constraintBottom_toTopOf="@id/gdl_options_option_1_value_bottom"
         app:layout_constraintLeft_toRightOf="@+id/gdl_options_option_left"
         app:layout_constraintTop_toTopOf="@id/gdl_options_option_1_value_top"
-        app:layout_constraintRight_toRightOf="@id/gdl_btns_create_right" />
+        app:layout_constraintRight_toRightOf="@id/gdl_btns_create_right"
+        tools:ignore="LabelFor" />
 
     <!-- Schedules -->
     <androidx.constraintlayout.widget.Guideline
@@ -230,5 +231,21 @@
         app:layout_constraintRight_toLeftOf="@id/gdl_btns_create_right"
         app:layout_constraintTop_toTopOf="@id/gdl_btns_top"
         app:layout_constraintBottom_toTopOf="@id/gdl_btns_bottom"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdl_options_option_4_value_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <CheckBox
+        android:id="@+id/cb_enabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enabled"
+        app:layout_constraintLeft_toRightOf="@+id/gdl_options_option_left"
+        app:layout_constraintTop_toTopOf="@id/gdl_options_option_4_value_top"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

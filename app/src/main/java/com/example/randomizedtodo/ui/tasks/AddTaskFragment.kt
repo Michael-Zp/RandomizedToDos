@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randomizedtodo.databinding.FragmentAddTaskBinding
-import com.example.randomizedtodo.model.version_2.Group
-import com.example.randomizedtodo.model.version_2.Schedule
-import com.example.randomizedtodo.model.version_2.Task
+import com.example.randomizedtodo.model.version_3.Group
+import com.example.randomizedtodo.model.version_3.Schedule
+import com.example.randomizedtodo.model.version_3.Task
 import com.example.randomizedtodo.ui.groups.GroupsViewModel
 import com.example.randomizedtodo.ui.helpers.Utils
 import com.example.randomizedtodo.ui.schedules.SchedulesViewModel
@@ -56,7 +56,7 @@ class AddTaskFragment : Fragment() {
 
             if (name.isNotEmpty())
             {
-                tasksViewModel.add(Task(name, group?.ID, schedule?.ID))
+                tasksViewModel.add(Task(binding.cbEnabled.isChecked, name, group?.ID, schedule?.ID))
                 activity?.onBackPressed()
             }
             else

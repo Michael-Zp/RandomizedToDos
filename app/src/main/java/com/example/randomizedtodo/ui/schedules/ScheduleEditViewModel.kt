@@ -1,8 +1,8 @@
 package com.example.randomizedtodo.ui.schedules
 
 import androidx.lifecycle.ViewModel
-import com.example.randomizedtodo.model.version_2.Model
-import com.example.randomizedtodo.model.version_2.Schedule
+import com.example.randomizedtodo.model.version_3.Model
+import com.example.randomizedtodo.model.version_3.Schedule
 
 class ScheduleEditViewModel : ViewModel() {
     var selectedSchedule: Schedule? = null
