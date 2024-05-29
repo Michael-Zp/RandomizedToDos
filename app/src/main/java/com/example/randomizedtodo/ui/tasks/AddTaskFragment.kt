@@ -95,6 +95,8 @@ class AddTaskFragment : Fragment() {
             { tasksViewModel.model.tasksObservable },
             viewLifecycleOwner)
 
+        binding.cbEnabled.isChecked = true
+
         return root
     }
 
